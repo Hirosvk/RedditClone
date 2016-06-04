@@ -3,7 +3,6 @@
 
   <h2><%=@post.title%></h2>
 <ul>
-
   <li>Author: <%=@post.author.username%></li>
   <li>Content: <%=@post.content%></li>
   <li>URL: <%=@post.url%></li>
@@ -11,4 +10,18 @@
 
 </ul>
 
+<% if current_user.id == @post.author_id %>
 <%= link_to "Edit this post", edit_post_url(params[:id]) %>
+<% end %>
+<hr>
+
+<h3>Comments</h3>
+<%= render "comments/comments", comments_hash: @all_comments_hash, parent_id: nil %>
+<hr>
+<p>Respond to this post</p>
+<%= render "comments/new", post_id: @post.id, parent_comment_id: nil %>
+
+<% @post.subs.each do |sub| %>
+  <%= link_to "See all posts on Sub: #{sub.title}", sub_url(sub.id) %>
+  <br>
+<% end %>

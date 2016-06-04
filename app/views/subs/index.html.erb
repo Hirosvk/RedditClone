@@ -7,7 +7,9 @@
     <h2><%= link_to sub.title, sub_url(sub.id) %></h2>
     <p><%= sub.description %></p>
     <p>Moderator: <%= sub.moderator.username %></p>
-    <p><%= link_to "edit", edit_sub_url(sub) %><p>
+    <% if current_user.id == sub.moderator_id %>
+      <p><%= link_to "edit", edit_sub_url(sub) %><p>
+    <% end %>
     <hr>
   </section>
 

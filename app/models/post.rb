@@ -13,7 +13,7 @@
 
 class Post < ActiveRecord::Base
   validates :title, :content, :author, presence: true
-  validates :sub_ids, length: { minimum: 1}
+  validates :sub_ids, length: { minimum: 1, message: "At least one sub needs to be associatd with the post" }
 
   belongs_to :author,
     primary_key: :id,
@@ -30,7 +30,20 @@ class Post < ActiveRecord::Base
     through: :sub_posts,
     source: :sub
 
+  has_many :comments,
+    primary_key: :id,
+    foreign_key: :post_id,
+    class_name: "Comment",
+    dependent: :destroy
 
-
+  def comments_by_parent_id
+    hash = {}
+    self.comments.includes(:author).each do |comment|
+      id = comment.parent_comment_id
+      hash[id] = [] if hash[id].nil?
+      hash[id] << comment
+    end
+    hash
+  end
 
 end

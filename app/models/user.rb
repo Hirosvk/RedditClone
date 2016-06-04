@@ -18,7 +18,8 @@ class User < ActiveRecord::Base
   has_many :authored_posts,
     primary_key: :id,
     foreign_key: :author_id,
-    class_name: "Post"
+    class_name: "Post",
+    dependent: :destroy
 
   has_many :contributing_subs,
     through: :authored_posts,
@@ -27,7 +28,15 @@ class User < ActiveRecord::Base
   has_many :moderating_subs,
     primary_key: :id,
     foreign_key: :moderator_id,
-    class_name: "Sub"
+    class_name: "Sub",
+    dependent: :destroy
+
+  has_many :comments,
+    primary_key: :id,
+    foreign_key: :author_id,
+    class_name: "Comment",
+    dependent: :destroy,
+    inverse_of: :author
 
   attr_reader :password
   after_initialize :ensure_session_token

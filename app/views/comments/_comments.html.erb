@@ -1,0 +1,24 @@
+<ul>
+
+<% comments.each do |comment| %>
+
+  <% if comment.parent_comment_id == parent_id %>
+    <li><%= comment.content %></li>
+    <li>written by: <%= comment.author.username %></li>
+    <li>update at: <%= comment.updated_at%></li>
+    <% if current_user.id == comment.author_id %>
+      <%= button_to "delete", comment_url(comment.id), method: :delete %>
+    <% end %>
+
+    <% unless comment.child_comments.empty? %>
+      <%= render "comments/comments",
+          comments: comment.child_comments,
+          parent_id: comment.id %>
+    <% end %>
+
+    <li>Respond to this comment</li>
+    <%= render "comments/new", post_id: comments.first.post_id,
+    parent_comment_id: comment.id %>
+  <% end %>
+<% end %>
+</ul>

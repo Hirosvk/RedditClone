@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604000245) do
+ActiveRecord::Schema.define(version: 20160604171706) do
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "author_id",         null: false
+    t.integer  "post_id",           null: false
+    t.integer  "parent_comment_id"
+    t.text     "content",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["author_id"], name: "index_comments_on_author_id"
+  add_index "comments", ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id"
 
   create_table "posts", force: :cascade do |t|
     t.string   "title",      null: false
@@ -34,12 +47,14 @@ ActiveRecord::Schema.define(version: 20160604000245) do
   add_index "sub_posts", ["sub_id", "post_id"], name: "index_sub_posts_on_sub_id_and_post_id", unique: true
 
   create_table "subs", force: :cascade do |t|
+    t.string   "title",        null: false
+    t.text     "description",  null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "title"
-    t.string   "description"
-    t.integer  "moderator_id"
+    t.integer  "moderator_id", null: false
   end
+
+  add_index "subs", ["title"], name: "index_subs_on_title"
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
