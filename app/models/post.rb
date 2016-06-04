@@ -13,6 +13,7 @@
 
 class Post < ActiveRecord::Base
   validates :title, :content, :author, presence: true
+  validates :sub_ids, length: { minimum: 1}
 
   belongs_to :author,
     primary_key: :id,

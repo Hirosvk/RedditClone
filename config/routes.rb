@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resource :session, :user
-  resources :subs do
-    resources :posts
-  end 
+  resources :subs
+  resources :posts
+   
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

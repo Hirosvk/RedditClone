@@ -7,7 +7,8 @@
   <li>Author: <%=@post.author.username%></li>
   <li>Content: <%=@post.content%></li>
   <li>URL: <%=@post.url%></li>
+  <li>Associated Subs: <%= @post.subs.map(&:title).join(", ") %></li>
 
 </ul>
 
-<%= link_to "Edit this post", edit_sub_post_url(params[:sub_id], params[:id]) %>
+<%= link_to "Edit this post", edit_post_url(params[:id]) %>

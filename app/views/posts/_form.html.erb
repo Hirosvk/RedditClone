@@ -1,7 +1,7 @@
 <% if post.persisted? %>
-<% action, button, verb = sub_post_url(params[:sub_id], params[:id]), "edit", "patch" %>
+<% action, button, verb = post_url(params[:id]), "edit", "patch" %>
 <% else %>
-<% action, button, verb = sub_posts_url(params[:sub_id]), "create", "post" %>
+<% action, button, verb = posts_url, "create", "post" %>
 <% end %>
 
 <%= flash[:errors] %>
@@ -14,11 +14,26 @@
   <label for="title">Title</label>
   <input type="text" name="post[title]" id="title"value="<%=post.title%>">
   <br>
+
   <label for="content">Content</label><br>
   <textarea name="post[content]" rows="8" cols="40"id="content"><%=post.content%></textarea>
   <br>
+
   <label for="url">URL</label>
   <input type="text" name="post[url]" id="url"value="<%=post.url%>">
   <br>
+
+  <input type="hidden" name="post[sub_ids][]" value="">
+  <% all_subs.each do |sub| %>
+    <label for="<%=sub.title%>"><%= sub.title %></label>
+    <input
+        type="checkbox"
+        name="post[sub_ids][]"
+        value="<%= sub.id%>"
+        id="<%= sub.title%>"
+        <%= "checked" if post.sub_ids.include?(sub.id)%>
+    ><br>
+  <% end %>
+
   <input type="submit" value="<%=button%>">
 </form>

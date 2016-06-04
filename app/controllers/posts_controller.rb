@@ -12,6 +12,7 @@
 #  updated_at :datetime         not null
 class PostsController < ApplicationController
   before_action :require_current_user, except: [:index, :show]
+  # before_action :require_author, only: [:edit, :update, :destroy]
 
   def new
     @post = Post.new
@@ -19,10 +20,10 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.sub_id = params[:sub_id]
+    @post.sub_ids = params[:post][:sub_ids]
     @post.author_id = current_user.id
     if @post.save
-      redirect_to sub_url(params[:sub_id])
+      redirect_to post_url(parmas[:id])
     else
       flash[:errors] = @post.errors.full_messages
       render :new
@@ -33,18 +34,19 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     if @post.nil?
       flash[:errors] = "no post found"
-      redirect_to sub_url(params[:sub_id])
+      redirect_to subs_url
     else
+      require_author
       render :edit
     end
   end
 
   def update
     @post = Post.find(params[:id])
-    if @post.nil?
-      flash[:errors] = "no post found"
-    elsif @post.update(post_params)
-      redirect_to sub_url(params[:sub_id])
+    @post.sub_ids = params[:post][:sub_ids]
+
+    if @post.update(post_params)
+      redirect_to post_url(params[:id])
     else
       flash[:errors] = @post.errors.full_messages
       render :edit
@@ -59,6 +61,15 @@ class PostsController < ApplicationController
   end
 
   private
+
+  # def require_author
+  #   unless @post.author_id == current_user.id
+  #     flash[:errors] = "You need to be the author to edit/delete this post."
+  #     redirect_to sub_url
+  #   end
+  # end
+
+
   def post_params
     params.require(:post).permit(:title, :content, :url)
   end
