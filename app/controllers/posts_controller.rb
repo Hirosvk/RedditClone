@@ -77,7 +77,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @all_comments_hash = @post.comments_by_parent_id
+    @all_comments = @post.comments.includes(:author)
   end
 
   private

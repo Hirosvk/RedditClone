@@ -16,7 +16,7 @@
 <hr>
 
 <h3>Comments</h3>
-<%= render "comments/comments", comments_hash: @all_comments_hash, parent_id: nil %>
+<%= render "comments/comments", comments: @all_comments, parent_id: nil %>
 <hr>
 <p>Respond to this post</p>
 <%= render "comments/new", post_id: @post.id, parent_comment_id: nil %>
