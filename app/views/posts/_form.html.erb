@@ -1,0 +1,24 @@
+<% if post.persisted? %>
+<% action, button, verb = sub_post_url(params[:sub_id], params[:id]), "edit", "patch" %>
+<% else %>
+<% action, button, verb = sub_posts_url(params[:sub_id]), "create", "post" %>
+<% end %>
+
+<%= flash[:errors] %>
+
+<br><br>
+<form action="<%=action%>" method="post">
+  <input type="hidden" name="_method" value="<%=verb%>">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="title">Title</label>
+  <input type="text" name="post[title]" id="title"value="<%=post.title%>">
+  <br>
+  <label for="content">Content</label><br>
+  <textarea name="post[content]" rows="8" cols="40"id="content"><%=post.content%></textarea>
+  <br>
+  <label for="url">URL</label>
+  <input type="text" name="post[url]" id="url"value="<%=post.url%>">
+  <br>
+  <input type="submit" value="<%=button%>">
+</form>

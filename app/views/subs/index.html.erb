@@ -1,0 +1,16 @@
+<h1>All Subs</h1>
+<%= flash[:errors] %>
+
+<% @subs.each do |sub| %>
+
+  <section>
+    <h2><%= link_to sub.title, sub_url(sub.id) %></h2>
+    <p><%= sub.description %></p>
+    <p>Moderator: <%= sub.moderator.username %></p>
+    <p><%= link_to "edit", edit_sub_url(sub) %><p>
+    <hr>
+  </section>
+
+<% end %>
+
+<%= link_to "Create New Sub", new_sub_url %>

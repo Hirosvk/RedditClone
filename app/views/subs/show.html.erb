@@ -1,0 +1,5 @@
+<h1><%=@sub.title%>'s posts</h1>
+
+<%= render "posts/posts", posts: @sub.posts %>
+
+<%= link_to "Create New Post", new_sub_post_url(params[:id]) %>

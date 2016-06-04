@@ -1,0 +1,6 @@
+
+<ul>
+  <% posts.each do |post| %>
+  <li><%= link_to post.title, sub_post_url(post.sub_id, post.id) %></li>
+  <% end %>
+</ul>
